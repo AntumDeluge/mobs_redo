@@ -3517,8 +3517,25 @@ function mobs:register_egg(mob, desc, background, addegg, no_creative)
 			"^[mask:mobs_chicken_egg_overlay.png)"
 	end
 
+	-- Colon prefix must initially be removed for compatibility
+	if string.find(mob, ":") == 1 then
+		mob = string.sub(mob, 2)
+	end
+
+	-- Allows for registering eggs using mod prefix different than current mod name
+	local mob_prefix = string.split(mob, ":")[1]
+	local alt_mod_name = false
+	if mob_prefix ~= minetest.get_current_modname() then
+		alt_mod_name = true
+	end
+
+	local register_name = mob .. "_set"
+	if alt_mod_name then
+		register_name = ":" .. register_name
+	end
+
 	-- register new spawn egg containing mob information
-	minetest.register_craftitem(mob .. "_set", {
+	minetest.register_craftitem(register_name, {
 
 		description = S("@1 (Tamed)", desc),
 		inventory_image = invimg,
@@ -3565,8 +3582,13 @@ function mobs:register_egg(mob, desc, background, addegg, no_creative)
 	})
 
 
+	register_name = mob
+	if alt_mod_name then
+		register_name = ":" .. register_name
+	end
+
 	-- register old stackable mob egg
-	minetest.register_craftitem(mob, {
+	minetest.register_craftitem(register_name, {
 
 		description = desc,
 		inventory_image = invimg,
