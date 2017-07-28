@@ -2998,7 +2998,18 @@ mobs.spawning_mobs = {}
 -- register mob entity
 function mobs:register_mob(name, def)
 
+	-- Colon prefix must be removed for addition into 'mobs.spawning_mobs'
+	if string.find(name, ":") == 1 then
+		name = string.sub(name, 2)
+	end
+
 	mobs.spawning_mobs[name] = true
+
+	-- Add colon prefix for mobs not using standard naming convention
+	local mob_prefix = string.split(name, ":")[1]
+	if mob_prefix ~= minetest.get_current_modname() then
+		name = ":" .. name
+	end
 
 minetest.register_entity(name, {
 
