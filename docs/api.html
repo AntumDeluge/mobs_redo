@@ -1066,34 +1066,6 @@ mobs_animal:cow = 1000,5
 </ul>
 
         </li>
-        <li><span class="parameter">passive</span>
-            <span class="types"><span class="type">bool</span></span>
-           Mob will <em>not</em> defend itself (set to <strong><em>false</em></strong> to attack).
-        </li>
-        <li><span class="parameter">docile_by_day</span>
-            <span class="types"><span class="type">bool</span></span>
-           When <strong><em>true</em></strong>, mob will not attack during daylight hours unless provoked.
-        </li>
-        <li><span class="parameter">attacks_monsters</span>
-            <span class="types"><span class="type">bool</span></span>
-           Will attack nearby monsters (usually used for NPCs).
-        </li>
-        <li><span class="parameter">group_attack</span>
-            <span class="types"><span class="type">bool</span></span>
-           If <strong><em>true</em></strong>, Will defend nearby mobs of same type from attack.
-        </li>
-        <li><span class="parameter">owner_loyal</span>
-            <span class="types"><span class="type">bool</span></span>
-           If <strong><em>true</em></strong>, owned mobs will attack any monsters you punch.
-        </li>
-        <li><span class="parameter">attack_animals</span>
-            <span class="types"><span class="type">bool</span></span>
-           If <strong><em>true</em></strong>, will attack animals as well as players &amp; NPCs.
-        </li>
-        <li><span class="parameter">specific_attack</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-           Table of entity names that monsters can attack (e.g. <strong><em>{&ldquo;player&rdquo;, &ldquo;mobs_animal:chicken&rdquo;}</em></strong>).
-        </li>
         <li><span class="parameter">hp_min</span>
             <span class="types"><span class="type">int</span></span>
            Minimum health.
@@ -1118,6 +1090,21 @@ mobs_animal:cow = 1000,5
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
            Same as in <a href="http://dev.minetest.net/minetest.register_entity">minetest.register_entity</a>.
         </li>
+        <li><span class="parameter">rotate</span>
+            <span class="types"><span class="type">int</span></span>
+           Sets mob rotation (0=front, 90=side, 180=back, 270=other side).
+        </li>
+        <li><span class="parameter">drawtype</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+           <strong><em>&ldquo;front&rdquo;</em></strong> or <strong><em>&ldquo;side&rdquo;</em></strong> (<strong>DEPRECATED:</strong> replaced with <strong><em>rotate</em></strong>).</p>
+
+<p> <div style="text-align:right; font-style:italic;">
+ <strong>GRAPHICS</strong></p>
+
+<hr />
+
+<p> </div>
+        </li>
         <li><span class="parameter">textures</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
            Same as in <a href="http://dev.minetest.net/minetest.register_entity">minetest.register_entity</a>.
@@ -1137,9 +1124,56 @@ mobs_animal:cow = 1000,5
         <li><span class="parameter">gotten_mesh</span>
            Alternative mesh for when <strong><em>self.gotten</em></strong> is <strong><em>true</em></strong> (used for sheep).
         </li>
+        <li><span class="parameter">blood_amount</span>
+            <span class="types"><span class="type">int</span></span>
+           Number of blood droplets that appear when hit.
+        </li>
+        <li><span class="parameter">blood_texture</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        <ul>
+<li> Texture of blood droplets.</li>
+<li> Default: <strong><em>&ldquo;mobs_blood.png&rdquo;</em></strong></li>
+</ul>
+
+
+<p> <div style="text-align:right; font-style:italic;">
+ <strong>SOUND</strong></p>
+
+<hr />
+
+<p> </div></p>
+        </li>
         <li><span class="parameter">makes_footstep_sound</span>
             <span class="types"><span class="type">bool</span></span>
            Same as in <a href="http://dev.minetest.net/minetest.register_entity">minetest.register_entity</a>.
+        </li>
+        <li><span class="parameter">sounds</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        <ul>
+<li> Sounds that will be heard from mob.</li>
+<li> Fields:
+
+<ul>
+<li><strong><em>random:</em></strong> Random sounds during gameplay.</li>
+<li><strong><em>war_cry:</em></strong> Played when starting to attack player.</li>
+<li><strong><em>attack:</em></strong> Played while attacking player.</li>
+<li><strong><em>shoot_attack:</em></strong> Played while attacking player from range.</li>
+<li><strong><em>damage:</em></strong> Played when mob is hit.</li>
+<li><strong><em>death:</em></strong> Played when mob dies.</li>
+<li><strong><em>jump:</em></strong> Played when jumping.</li>
+<li><strong><em>explode:</em></strong> Played when explodes.</li>
+<li><strong><em>distance:</em></strong> (<strong><em>int</em></strong>) Maximum distance sounds are heard from (default: 10).</li>
+</ul>
+</li>
+</ul>
+
+
+<p> <div style="text-align:right; font-style:italic;">
+ <strong>BEHAVIOUR</strong></p>
+
+<hr />
+
+<p> </div></p>
         </li>
         <li><span class="parameter">follow</span>
            Items that, when held, will cause mob to follow player. Can be single string (e.g. <strong><em>&ldquo;default:apple&rdquo;</em></strong>)
@@ -1164,10 +1198,6 @@ mobs_animal:cow = 1000,5
         <li><span class="parameter">run_velocity</span>
            Speed of mob when running or attacking another entity.
         </li>
-        <li><span class="parameter">runaway</span>
-            <span class="types"><span class="type">bool</span></span>
-           If <strong><em>true</em></strong>, mob will retreat when punched.
-        </li>
         <li><span class="parameter">stepheight</span>
             <span class="types"><span class="type">float</span></span>
            Minimum node height mob can walk onto without jumping (default: <strong><em>0.6</em></strong>).
@@ -1190,87 +1220,6 @@ mobs_animal:cow = 1000,5
         </li>
         <li><span class="parameter">fly_in</span>
            Node name in which mob can fly (e.g. <strong><em>&ldquo;air&rdquo;</em></strong> for birds, &amp; <strong><em>&ldquo;default:water_source&rdquo;</em></strong> for fish).
-        </li>
-        <li><span class="parameter">damage</span>
-           The damage mob inflicts per melee attack.
-        </li>
-        <li><span class="parameter">recovery_time</span>
-            <span class="types"><span class="type">float</span></span>
-        <ul>
-<li> How much time, in seconds, from when mob is hit until it recovers.</li>
-<li> Default: <strong><em>0.5</em></strong></li>
-</ul>
-
-        </li>
-        <li><span class="parameter">knock_back</span>
-            <span class="types"><span class="type">int</span></span>
-        <ul>
-<li> Strength of knock-back when mob is hit.</li>
-<li> Default: <strong><em>3</em></strong></li>
-</ul>
-
-        </li>
-        <li><span class="parameter">immune_to</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-        <ul>
-<li> A table holding special tool/item names &amp; damage they incur.</li>
-<li> Example:
-<pre>
-immune_to = {
-   {&ldquo;default:sword_wood&rdquo;, 0},  -- immune to sword
-   {&ldquo;default:gold_lump&rdquo;, -10},  -- gold lump heals
-}
-</pre></li>
-</ul>
-
-        </li>
-        <li><span class="parameter">blood_amount</span>
-            <span class="types"><span class="type">int</span></span>
-           Number of blood droplets that appear when hit.
-        </li>
-        <li><span class="parameter">blood_texture</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-        <ul>
-<li> Texture of blood droplets.</li>
-<li> Default: <strong><em>&ldquo;mobs_blood.png&rdquo;</em></strong></li>
-</ul>
-
-        </li>
-        <li><span class="parameter">drops</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-        <ul>
-<li> List of tables with the following fields:
-
-<ul>
-<li><strong><em>name:</em></strong> (<strong><em>string</em></strong>) Item name (e.g. &ldquo;default:stone&rdquo;).</li>
-<li><strong><em>chance:</em></strong> (<strong><em>int</em></strong>) The inverted chance (same as in abm) to get the item.</li>
-<li><strong><em>min:</em></strong> (<strong><em>int</em></strong>) Minimum number of items dropped at one time.</li>
-<li><strong><em>max:</em></strong> (<strong><em>int</em></strong>) Maximum number of items dropped at one time.</li>
-</ul>
-</li>
-<li> Example:
-<pre>
-drops = {
-   {name=&lsquo;default:stone&rsquo;, chance=2, min=5, max=5},
-   {name=&lsquo;default:mese_crystal&rsquo;, chance=100, min=1, max=3},
-   {name=&lsquo;mobs:meat&rsquo;, chance=1, min=2, max=5},
-}
-</pre></li>
-</ul>
-
-        </li>
-        <li><span class="parameter">armor</span>
-            <span class="types"><span class="type">int</span></span>
-           Armor strength (<strong><em>100</em></strong> being normal). Lower numbers mean stronger armor while higher numbers
-   make it weaker (weird, I know. But compatible with simple mobs).
-        </li>
-        <li><span class="parameter">rotate</span>
-            <span class="types"><span class="type">int</span></span>
-           Sets mob rotation (0=front, 90=side, 180=back, 270=other side).
-        </li>
-        <li><span class="parameter">drawtype</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-           <strong><em>&ldquo;front&rdquo;</em></strong> or <strong><em>&ldquo;side&rdquo;</em></strong> (<strong>DEPRECATED:</strong> replaced with <strong><em>rotate</em></strong>).
         </li>
         <li><span class="parameter">water_damage</span>
            Damage per second mob incurs while in water.
@@ -1342,6 +1291,106 @@ drops = {
 </li>
 </ul>
 
+
+<p> <div style="text-align:right; font-style:italic;">
+ <strong>COMBAT</strong></p>
+
+<hr />
+
+<p> </div></p>
+        </li>
+        <li><span class="parameter">passive</span>
+            <span class="types"><span class="type">bool</span></span>
+           Mob will <em>not</em> defend itself (set to <strong><em>false</em></strong> to attack).
+        </li>
+        <li><span class="parameter">docile_by_day</span>
+            <span class="types"><span class="type">bool</span></span>
+           When <strong><em>true</em></strong>, mob will not attack during daylight hours unless provoked.
+        </li>
+        <li><span class="parameter">attacks_monsters</span>
+            <span class="types"><span class="type">bool</span></span>
+           Will attack nearby monsters (usually used for NPCs).
+        </li>
+        <li><span class="parameter">group_attack</span>
+            <span class="types"><span class="type">bool</span></span>
+           If <strong><em>true</em></strong>, Will defend nearby mobs of same type from attack.
+        </li>
+        <li><span class="parameter">owner_loyal</span>
+            <span class="types"><span class="type">bool</span></span>
+           If <strong><em>true</em></strong>, owned mobs will attack any monsters you punch.
+        </li>
+        <li><span class="parameter">attack_animals</span>
+            <span class="types"><span class="type">bool</span></span>
+           If <strong><em>true</em></strong>, will attack animals as well as players &amp; NPCs.
+        </li>
+        <li><span class="parameter">specific_attack</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+           Table of entity names that monsters can attack (e.g. <strong><em>{&ldquo;player&rdquo;, &ldquo;mobs_animal:chicken&rdquo;}</em></strong>).
+        </li>
+        <li><span class="parameter">runaway</span>
+            <span class="types"><span class="type">bool</span></span>
+           If <strong><em>true</em></strong>, mob will retreat when punched.
+        </li>
+        <li><span class="parameter">damage</span>
+           The damage mob inflicts per melee attack.
+        </li>
+        <li><span class="parameter">recovery_time</span>
+            <span class="types"><span class="type">float</span></span>
+        <ul>
+<li> How much time, in seconds, from when mob is hit until it recovers.</li>
+<li> Default: <strong><em>0.5</em></strong></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">knock_back</span>
+            <span class="types"><span class="type">int</span></span>
+        <ul>
+<li> Strength of knock-back when mob is hit.</li>
+<li> Default: <strong><em>3</em></strong></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">immune_to</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        <ul>
+<li> A table holding special tool/item names &amp; damage they incur.</li>
+<li> Example:
+<pre>
+immune_to = {
+   {&ldquo;default:sword_wood&rdquo;, 0},  -- immune to sword
+   {&ldquo;default:gold_lump&rdquo;, -10},  -- gold lump heals
+}
+</pre></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">drops</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        <ul>
+<li> List of tables with the following fields:
+
+<ul>
+<li><strong><em>name:</em></strong> (<strong><em>string</em></strong>) Item name (e.g. &ldquo;default:stone&rdquo;).</li>
+<li><strong><em>chance:</em></strong> (<strong><em>int</em></strong>) The inverted chance (same as in abm) to get the item.</li>
+<li><strong><em>min:</em></strong> (<strong><em>int</em></strong>) Minimum number of items dropped at one time.</li>
+<li><strong><em>max:</em></strong> (<strong><em>int</em></strong>) Maximum number of items dropped at one time.</li>
+</ul>
+</li>
+<li> Example:
+<pre>
+drops = {
+   {name=&lsquo;default:stone&rsquo;, chance=2, min=5, max=5},
+   {name=&lsquo;default:mese_crystal&rsquo;, chance=100, min=1, max=3},
+   {name=&lsquo;mobs:meat&rsquo;, chance=1, min=2, max=5},
+}
+</pre></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">armor</span>
+            <span class="types"><span class="type">int</span></span>
+           Armor strength (<strong><em>100</em></strong> being normal). Lower numbers mean stronger armor while higher numbers
+   make it weaker (weird, I know. But compatible with simple mobs).
         </li>
         <li><span class="parameter">attack_type</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
@@ -1425,41 +1474,6 @@ drops = {
             <span class="types"><span class="type">int</span></span>
         <ul>
 <li>Range at which mob will shoot (default: <strong><em>3</em></strong>).</li>
-</ul>
-
-
-<p> <div style="text-align:right; font-style:italic;">
- <strong>COMBAT</strong></p>
-
-<hr />
-
-<p> </div></p>
-
-<p> <div style="text-align:right; font-style:italic;">
- <strong>AUDIO</strong></p>
-
-<hr />
-
-<p> </div></p>
-        </li>
-        <li><span class="parameter">sounds</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-        <ul>
-<li> Sounds that will be heard from mob.</li>
-<li> Fields:
-
-<ul>
-<li><strong><em>random:</em></strong> Random sounds during gameplay.</li>
-<li><strong><em>war_cry:</em></strong> Played when starting to attack player.</li>
-<li><strong><em>attack:</em></strong> Played while attacking player.</li>
-<li><strong><em>shoot_attack:</em></strong> Played while attacking player from range.</li>
-<li><strong><em>damage:</em></strong> Played when mob is hit.</li>
-<li><strong><em>death:</em></strong> Played when mob dies.</li>
-<li><strong><em>jump:</em></strong> Played when jumping.</li>
-<li><strong><em>explode:</em></strong> Played when explodes.</li>
-<li><strong><em>distance:</em></strong> (<strong><em>int</em></strong>) Maximum distance sounds are heard from (default: 10).</li>
-</ul>
-</li>
 </ul>
 
 
@@ -1848,7 +1862,7 @@ replace_what = {
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/AntumDeluge/LDoc/tree/antum">LDoc 1.4.6-antum-dev</a></i>
-<i style="float:right;">Last updated 2017-08-11 15:29:22 </i>
+<i style="float:right;">Last updated 2017-08-11 15:49:57 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
