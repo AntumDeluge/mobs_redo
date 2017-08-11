@@ -303,7 +303,6 @@
 
 --- Definition table for [mobs:register_mob](#mobs:register_mob).
 --
---
 -- @table mobs:register_mob.def
 -- @tfield string type
 --   - The type of mob.
@@ -311,20 +310,6 @@
 --     - ***monster:*** Attacks players & other mob types.
 --     - ***animal:*** Tend to wander around & can attack when hit first.
 --     - ***npc:*** Behaviour is similar to ***animal***.
--- @tfield bool passive
---   Mob will *not* defend itself (set to ***false*** to attack).
--- @tfield bool docile_by_day
---   When ***true***, mob will not attack during daylight hours unless provoked.
--- @tfield bool attacks_monsters
---   Will attack nearby monsters (usually used for NPCs).
--- @tfield bool group_attack
---   If ***true***, Will defend nearby mobs of same type from attack.
--- @tfield bool owner_loyal
---   If ***true***, owned mobs will attack any monsters you punch.
--- @tfield bool attack_animals
---   If ***true***, will attack animals as well as players & NPCs.
--- @tfield table specific_attack
---   Table of entity names that monsters can attack (e.g. ***{"player", "mobs_animal:chicken"}***).
 -- @tfield int hp_min
 --   Minimum health.
 -- @tfield int hp_max
@@ -336,6 +321,17 @@
 --   Same as in [minetest.register_entity](http://dev.minetest.net/minetest.register_entity).
 -- @tfield table visual_size
 --   Same as in [minetest.register_entity](http://dev.minetest.net/minetest.register_entity).
+-- @tfield int rotate
+--   Sets mob rotation (0=front, 90=side, 180=back, 270=other side).
+-- @tfield string drawtype
+--   ***"front"*** or ***"side"*** (**DEPRECATED:** replaced with ***rotate***).
+--
+-- <div style="text-align:right; font-style:italic;">
+-- **GRAPHICS**
+--
+-- ---
+-- </div>
+--
 -- @tfield table textures
 --   Same as in [minetest.register_entity](http://dev.minetest.net/minetest.register_entity).
 --   Although, you can add multiple lines for random textures
@@ -348,8 +344,39 @@
 --   Same as in [minetest.register_entity](http://dev.minetest.net/minetest.register_entity).
 -- @field gotten_mesh
 --   Alternative mesh for when ***self.gotten*** is ***true*** (used for sheep).
+-- @tfield int blood_amount
+--   Number of blood droplets that appear when hit.
+-- @tfield string blood_texture
+--   - Texture of blood droplets.
+--   - Default: ***"mobs_blood.png"***
+--
+-- <div style="text-align:right; font-style:italic;">
+-- **SOUND**
+--
+-- ---
+-- </div>
+--
 -- @tfield bool makes_footstep_sound
 --   Same as in [minetest.register_entity](http://dev.minetest.net/minetest.register_entity).
+-- @tfield table sounds
+--   - Sounds that will be heard from mob.
+--   - Fields:
+--     - ***random:*** Random sounds during gameplay.
+--     - ***war_cry:*** Played when starting to attack player.
+--     - ***attack:*** Played while attacking player.
+--     - ***shoot_attack:*** Played while attacking player from range.
+--     - ***damage:*** Played when mob is hit.
+--     - ***death:*** Played when mob dies.
+--     - ***jump:*** Played when jumping.
+--     - ***explode:*** Played when explodes.
+--     - ***distance:*** (***int***) Maximum distance sounds are heard from (default: 10).
+--
+-- <div style="text-align:right; font-style:italic;">
+-- **BEHAVIOUR**
+--
+-- ---
+-- </div>
+--
 -- @field follow
 --   Items that, when held, will cause mob to follow player. Can be single string (e.g. ***"default:apple"***)
 --   or a table (e.g. ***{"default:apple", "default:diamond"}***). These can also be used to feed & tame mob.
@@ -363,8 +390,6 @@
 --   Speed of mob when walking around.
 -- @field run_velocity
 --   Speed of mob when running or attacking another entity.
--- @tfield bool runaway
---   If ***true***, mob will retreat when punched.
 -- @tfield float stepheight
 --   Minimum node height mob can walk onto without jumping (default: ***0.6***).
 -- @tfield bool jump
@@ -376,49 +401,6 @@
 --   If ***true***,  mob can fly through designated node types from ***fly_in*** (used for swimming mobs as well).
 -- @field fly_in
 --   Node name in which mob can fly (e.g. ***"air"*** for birds, & ***"default:water_source"*** for fish).
--- @field damage
---   The damage mob inflicts per melee attack.
--- @tfield float recovery_time
---   - How much time, in seconds, from when mob is hit until it recovers.
---   - Default: ***0.5***
--- @tfield int knock_back
---   - Strength of knock-back when mob is hit.
---   - Default: ***3***
--- @tfield table immune_to
---   - A table holding special tool/item names & damage they incur.
---   - Example:
---   <pre>
---   immune_to = {
---       {"default:sword_wood", 0},  \-- immune to sword
---       {"default:gold_lump", -10},  \-- gold lump heals
---   }
---   </pre>
--- @tfield int blood_amount
---   Number of blood droplets that appear when hit.
--- @tfield string blood_texture
---   - Texture of blood droplets.
---   - Default: ***"mobs_blood.png"***
--- @tfield table drops
---   - List of tables with the following fields:
---     - ***name:*** (***string***) Item name (e.g. "default:stone").
---     - ***chance:*** (***int***) The inverted chance (same as in abm) to get the item.
---     - ***min:*** (***int***) Minimum number of items dropped at one time.
---     - ***max:*** (***int***) Maximum number of items dropped at one time.
---   - Example:
---   <pre>
---   drops = {
---       {name='default:stone', chance=2, min=5, max=5},
---       {name='default:mese_crystal', chance=100, min=1, max=3},
---       {name='mobs:meat', chance=1, min=2, max=5},
---   }
---   </pre>
--- @tfield int armor
---   Armor strength (***100*** being normal). Lower numbers mean stronger armor while higher numbers
---   make it weaker (weird, I know. But compatible with simple mobs).
--- @tfield int rotate
---   Sets mob rotation (0=front, 90=side, 180=back, 270=other side).
--- @tfield string drawtype
---   ***"front"*** or ***"side"*** (**DEPRECATED:** replaced with ***rotate***).
 -- @field water_damage
 --   Damage per second mob incurs while in water.
 -- @field lava_damage
@@ -452,6 +434,63 @@
 --     - ***0:*** Disable.
 --     - ***1:*** Use pathfinder to locate player.
 --     - ***2:*** Additionaly allow build/break (only works with ***dogfight*** attack).
+--
+-- <div style="text-align:right; font-style:italic;">
+-- **COMBAT**
+--
+-- ---
+-- </div>
+--
+-- @tfield bool passive
+--   Mob will *not* defend itself (set to ***false*** to attack).
+-- @tfield bool docile_by_day
+--   When ***true***, mob will not attack during daylight hours unless provoked.
+-- @tfield bool attacks_monsters
+--   Will attack nearby monsters (usually used for NPCs).
+-- @tfield bool group_attack
+--   If ***true***, Will defend nearby mobs of same type from attack.
+-- @tfield bool owner_loyal
+--   If ***true***, owned mobs will attack any monsters you punch.
+-- @tfield bool attack_animals
+--   If ***true***, will attack animals as well as players & NPCs.
+-- @tfield table specific_attack
+--   Table of entity names that monsters can attack (e.g. ***{"player", "mobs_animal:chicken"}***).
+-- @tfield bool runaway
+--   If ***true***, mob will retreat when punched.
+-- @field damage
+--   The damage mob inflicts per melee attack.
+-- @tfield float recovery_time
+--   - How much time, in seconds, from when mob is hit until it recovers.
+--   - Default: ***0.5***
+-- @tfield int knock_back
+--   - Strength of knock-back when mob is hit.
+--   - Default: ***3***
+-- @tfield table immune_to
+--   - A table holding special tool/item names & damage they incur.
+--   - Example:
+--   <pre>
+--   immune_to = {
+--       {"default:sword_wood", 0},  \-- immune to sword
+--       {"default:gold_lump", -10},  \-- gold lump heals
+--   }
+--   </pre>
+-- @tfield table drops
+--   - List of tables with the following fields:
+--     - ***name:*** (***string***) Item name (e.g. "default:stone").
+--     - ***chance:*** (***int***) The inverted chance (same as in abm) to get the item.
+--     - ***min:*** (***int***) Minimum number of items dropped at one time.
+--     - ***max:*** (***int***) Maximum number of items dropped at one time.
+--   - Example:
+--   <pre>
+--   drops = {
+--       {name='default:stone', chance=2, min=5, max=5},
+--       {name='default:mese_crystal', chance=100, min=1, max=3},
+--       {name='mobs:meat', chance=1, min=2, max=5},
+--   }
+--   </pre>
+-- @tfield int armor
+--   Armor strength (***100*** being normal). Lower numbers mean stronger armor while higher numbers
+--   make it weaker (weird, I know. But compatible with simple mobs).
 -- @tfield string attack_type
 --   - The attack type of a mob.
 --   - Options:
@@ -492,29 +531,10 @@
 --   +/- value to position arrow/fireball when fired.
 -- @tfield int reach
 --  - Range at which mob will shoot (default: ***3***).
--- 
--- <div style="text-align:right; font-style:italic;">
--- **AUDIO**
---
--- ---
--- </div>
---
--- @tfield table sounds
---   - Sounds that will be heard from mob.
---   - Fields:
---     - ***random:*** Random sounds during gameplay.
---     - ***war_cry:*** Played when starting to attack player.
---     - ***attack:*** Played while attacking player.
---     - ***shoot_attack:*** Played while attacking player from range.
---     - ***damage:*** Played when mob is hit.
---     - ***death:*** Played when mob dies.
---     - ***jump:*** Played when jumping.
---     - ***explode:*** Played when explodes.
---     - ***distance:*** (***int***) Maximum distance sounds are heard from (default: 10).
 --
 -- <div style="text-align:right; font-style:italic;">
 -- **EATING**
--- 
+--
 -- ---
 -- Mobs can look for specific nodes as they walk & replace them to mimic eating.
 -- </div>
