@@ -1,30 +1,32 @@
 title = 'Mobs Redo mod for Minetest'
-project = 'mobs_redo'
-format = 'markdown'
-add_language_extension('ld', 'lua')
+project = 'Mobs Redo'
+format = 'discount'
+add_language_extension('ldoc', 'lua')
 not_luadoc = true
 wrap = true
+--boilerplate = true
+ignore = true
+--one = true
+output = 'api'
 
-local function tagoutput(value)
+file = {
+	'api.ldoc',
+}
+
+
+local function italic(value)
 	return '<i>' .. value .. '</i>'
 end
 
-new_type('setting', 'Settings')
+new_type('setting', 'Configuration Settings')
+new_type('notes', 'Notes')
+new_type('examples', 'Examples')
 custom_tags = {
-	{
-		'default',
-		format = tagoutput,
-	},
-	{
-		'type2',
+	{'settype',
 		title = 'Type',
-		format = tagoutput,
+		format = italic,
 	},
-	{
-		'dfield',
-		title = 'Definition Fields',
+	{'note',
+		title = 'Notes',
 	},
-	
 }
-
---file = {'api.ld'}
