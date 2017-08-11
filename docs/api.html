@@ -1,0 +1,1855 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Mobs Redo mod for Minetest</title>
+    <link rel="stylesheet" href="ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Mobs Redo</h1>
+
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Configuration_Settings_Used_by_this_Mod">Configuration Settings Used by this Mod </a></li>
+<li><a href="#Functions">Functions </a></li>
+<li><a href="#Function_Definition_Tables">Function Definition Tables </a></li>
+<li><a href="#Notes">Notes </a></li>
+<li><a href="#Examples">Examples </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>api</strong></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>api</code></h1>
+<p>Mobs Redo API (26th July, 2017).</p>
+<p></p>
+
+
+<h2><a href="#Configuration_Settings_Used_by_this_Mod">Configuration Settings Used by this Mod </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#enable_damage">enable_damage</a></td>
+	<td class="summary">Enable damage to players.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#only_peaceful_mobs">only_peaceful_mobs</a></td>
+	<td class="summary">Peaceful mobs only.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs_disable_blood">mobs_disable_blood</a></td>
+	<td class="summary">Disable blood effects.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs_spawn_protected">mobs_spawn_protected</a></td>
+	<td class="summary">Spawn in protected areas.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#remove_far_mobs">remove_far_mobs</a></td>
+	<td class="summary">Remove far mobs.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#prefix:name">&lt;prefix&gt;:&lt;name&gt;</a></td>
+	<td class="summary">Mob spawn rate &amp; count.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mob_difficulty">mob_difficulty</a></td>
+	<td class="summary">Mobs difficulty.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mob_show_health">mob_show_health</a></td>
+	<td class="summary">Show mobs' health bars.</td>
+	</tr>
+</table>
+<h2><a href="#Functions">Functions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#mobs:register_mob">mobs:register_mob (name, def)</a></td>
+	<td class="summary">Registers a mob entity.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:register_spawn">mobs:register_spawn (name, nodes, max_light, min_light, chance, active_object_count, max_height, day_toggle)</a></td>
+	<td class="summary">Registers spawning behavior of mob.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:spawn_specific">mobs:spawn_specific (name, nodes, neighbors, min_light, max_light, interval, chance, active_object_count, min_height, max_height, day_toggle, on_spawn)</a></td>
+	<td class="summary">Registers spawning behavior of mob.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:spawn">mobs:spawn (def)</a></td>
+	<td class="summary">Registers spawning behavior of mob.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:register_arrow">mobs:register_arrow (name, def)</a></td>
+	<td class="summary">Registers an item that mob can use for ranged attack.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:register_egg">mobs:register_egg (name, description, background, addegg, no_creative)</a></td>
+	<td class="summary">Registers a mob spawning egg.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:boom">mobs:boom (self, pos, radius)</a></td>
+	<td class="summary">Generates a self-destruct explosion from mob.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:explosion">mobs:explosion (pos, radius)</a></td>
+	<td class="summary">Generates a self-destruct explosion from mob.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:capture_mob">mobs:capture_mob (self, clicker, chance_hand, chance_net, chance_lasso, force_take, replacewith)</a></td>
+	<td class="summary">Attempts to capture a mob &amp; place in inventory.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:feed_tame">mobs:feed_tame (table, clicker, feed_count, breed, tame)</a></td>
+	<td class="summary">Feed &amp; tame mobs.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:protect">mobs:protect (self, clicker)</a></td>
+	<td class="summary">Protects mobs from being attacked by other players.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:attach">mobs:attach (self, player)</a></td>
+	<td class="summary">Attaches a player to the mob so it can be ridden.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:detach">mobs:detach (player, offset)</a></td>
+	<td class="summary">Detaches player from riding mob.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:drive">mobs:drive (self, move_animation, stand_animation, can_fly, dtime)</a></td>
+	<td class="summary">Controls mob movement with player riding.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:fly">mobs:fly (self, dtime, speed, can_shoot, arrow_entity, move_animation, stand_animation)</a></td>
+	<td class="summary">Controls mob flight with player riding.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:set_animation">mobs:set_animation (self, name)</a></td>
+	<td class="summary">Sets current animation for mob.</td>
+	</tr>
+</table>
+<h2><a href="#Function_Definition_Tables">Function Definition Tables </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#mobs:register_mob.def">mobs:register_mob.def</a></td>
+	<td class="summary">Definition table for <a href="#mobs:register_mob">mobs:register_mob</a>.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#mobs:register_arrow.def">mobs:register_arrow.def</a></td>
+	<td class="summary">Definition table for <a href="#mobs:register_arrow">mobs:register_arrow</a>.</td>
+	</tr>
+</table>
+<h2><a href="#Notes">Notes </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#Variables">Variables</a></td>
+	<td class="summary">Required variables.</td>
+	</tr>
+</table>
+<h2><a href="#Examples">Examples </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#Horse">Horse</a></td>
+	<td class="summary">Rideable horse.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Configuration_Settings_Used_by_this_Mod"></a>Configuration Settings Used by this Mod </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "enable_damage"></a>
+    <strong>enable_damage</strong>
+    </dt>
+    <dd>
+    <p>Enable damage to players.</p>
+
+<p> If <strong><em>true</em></strong>, monsters will attack players.</p>
+
+<ul>
+<li>Type: <strong><em>bool</em></strong></li>
+<li>Default: <strong><em>true</em></strong></li>
+</ul>
+
+
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "only_peaceful_mobs"></a>
+    <strong>only_peaceful_mobs</strong>
+    </dt>
+    <dd>
+    <p>Peaceful mobs only.</p>
+
+<p> If <strong><em>true</em></strong>, only animals will spawn in game.</p>
+
+<ul>
+<li>Type: <strong><em>bool</em></strong></li>
+<li>Default: <strong><em>false</em></strong></li>
+</ul>
+
+
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs_disable_blood"></a>
+    <strong>mobs_disable_blood</strong>
+    </dt>
+    <dd>
+    <p>Disable blood effects.</p>
+
+<p> If <strong><em>true</em></strong>, blood splatters will <em>not</em> appear when mob is hit.</p>
+
+<ul>
+<li>Type: <strong><em>bool</em></strong></li>
+<li>Default: <strong><em>false</em></strong></li>
+</ul>
+
+
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs_spawn_protected"></a>
+    <strong>mobs_spawn_protected</strong>
+    </dt>
+    <dd>
+    <p>Spawn in protected areas.</p>
+
+<p> If set to <strong><em>1</em></strong>, mobs will <em>not</em> spawn in protected areas.</p>
+
+<ul>
+<li>Type: <strong><em>int</em></strong></li>
+<li>Default: <strong><em>0</em></strong></li>
+</ul>
+
+
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "remove_far_mobs"></a>
+    <strong>remove_far_mobs</strong>
+    </dt>
+    <dd>
+    <p>Remove far mobs.</p>
+
+<p> If <strong><em>true</em></strong>, mobs that are outside players visual range will be removed.</p>
+
+<ul>
+<li>Type: <strong><em>bool</em></strong></li>
+<li>Default: <strong><em>false</em></strong></li>
+</ul>
+
+
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "prefix:name"></a>
+    <strong>&lt;prefix&gt;:&lt;name&gt;</strong>
+    </dt>
+    <dd>
+    <p>Mob spawn rate &amp; count.</p>
+
+<p> Can change specific mob chance rate &amp; spawn count (<strong><em>0</em></strong> to disable).</p>
+
+<ul>
+<li>Usage: <strong><em>&lt;prefix&gt;:&lt;name&gt; = chance,count</em></strong></li>
+<li><em>mintest.conf</em> Example:
+<pre>
+mobs_animal:cow = 1000,5
+</pre></li>
+</ul>
+
+
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mob_difficulty"></a>
+    <strong>mob_difficulty</strong>
+    </dt>
+    <dd>
+    <p>Mobs difficulty.</p>
+
+<p> Sets difficulty level (health &amp; hit damage multiplied by this number).</p>
+
+<ul>
+<li>Type: <strong><em>float</em></strong></li>
+<li>Default: <strong><em>1.0</em></strong></li>
+</ul>
+
+
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mob_show_health"></a>
+    <strong>mob_show_health</strong>
+    </dt>
+    <dd>
+    <p>Show mobs' health bars.</p>
+
+<p> If <strong><em>false</em></strong> then punching mob will not show health status.</p>
+
+<ul>
+<li>Type: <strong><em>bool</em></strong></li>
+<li>Default: <strong><em>true</em></strong></li>
+</ul>
+
+
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Functions"></a>Functions </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "mobs:register_mob"></a>
+    <strong>mobs:register_mob (name, def)</strong>
+    </dt>
+    <dd>
+    Registers a mob entity.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Name of the mob.
+        </li>
+        <li><span class="parameter">def</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         Definition table (see: <a href="#mobs:register_mob.def">mobs:register_mob.def</a>).
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs:register_spawn"></a>
+    <strong>mobs:register_spawn (name, nodes, max_light, min_light, chance, active_object_count, max_height, day_toggle)</strong>
+    </dt>
+    <dd>
+    Registers spawning behavior of mob.</p>
+
+<p> See: <a href="#mobs:spawn_specific">mobs:spawn_specific</a> for parameter descriptions.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">nodes</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">max_light</span>
+            <span class="types"><span class="type">int</span></span>
+
+        </li>
+        <li><span class="parameter">min_light</span>
+            <span class="types"><span class="type">int</span></span>
+
+        </li>
+        <li><span class="parameter">chance</span>
+            <span class="types"><span class="type">int</span></span>
+
+        </li>
+        <li><span class="parameter">active_object_count</span>
+            <span class="types"><span class="type">int</span></span>
+
+        </li>
+        <li><span class="parameter">max_height</span>
+            <span class="types"><span class="type">int</span></span>
+
+        </li>
+        <li><span class="parameter">day_toggle</span>
+            <span class="types"><span class="type">bool</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs:spawn_specific"></a>
+    <strong>mobs:spawn_specific (name, nodes, neighbors, min_light, max_light, interval, chance, active_object_count, min_height, max_height, day_toggle, on_spawn)</strong>
+    </dt>
+    <dd>
+    Registers spawning behavior of mob.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Name of the animal/monster.
+        </li>
+        <li><span class="parameter">nodes</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         A list of nodes on top of which the mob can spawn.
+        </li>
+        <li><span class="parameter">neighbors</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        <ul>
+<li>A list of nodes of which must be adjacent for the mob to spawn.</li>
+<li>Default: <strong><em>{&ldquo;air&rdquo;}</em></strong></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">min_light</span>
+            <span class="types"><span class="type">int</span></span>
+         The minimum light value of node for spawn to occur.
+        </li>
+        <li><span class="parameter">max_light</span>
+            <span class="types"><span class="type">int</span></span>
+         The maximum light value of node for spawn to occur.
+        </li>
+        <li><span class="parameter">interval</span>
+            <span class="types"><span class="type">int</span></span>
+         Same as in <a href="http://dev.minetest.net/minetest.register_abm">minetest.register_abm</a> (default: <strong><em>30</em></strong>).
+        </li>
+        <li><span class="parameter">chance</span>
+            <span class="types"><span class="type">int</span></span>
+         Same as in <a href="http://dev.minetest.net/minetest.register_abm">minetest.register_abm</a>.
+        </li>
+        <li><span class="parameter">active_object_count</span>
+            <span class="types"><span class="type">int</span></span>
+        <ul>
+<li>Mob is only spawned if <strong><em>active_object_count_wider</em></strong> of ABM is &lt;= this.</li>
+</ul>
+
+        </li>
+        <li><span class="parameter">min_height</span>
+            <span class="types"><span class="type">int</span></span>
+         Minimum height at which mob will spawn.
+        </li>
+        <li><span class="parameter">max_height</span>
+            <span class="types"><span class="type">int</span></span>
+         Maximum height at which mob will spawn.
+        </li>
+        <li><span class="parameter">day_toggle</span>
+            <span class="types"><span class="type">bool</span></span>
+        <ul>
+<li>Value descriptions:
+
+<ul>
+<li><strong><em>true:</em></strong> Mob will spawn during daytime.</li>
+<li><strong><em>false:</em></strong> Mob will spawn during nighttime.</li>
+<li><strong><em>nil:</em></strong> Mob will spawn anytime.</li>
+</ul>
+</li>
+</ul>
+
+        </li>
+        <li><span class="parameter">on_spawn</span>
+            <span class="types"><span class="type">callback</span></span>
+        <ul>
+<li>Called after mob has spawned.</li>
+<li>Usage: <strong><em>on_spawn = function(self, pos)</em></strong></li>
+</ul>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs:spawn"></a>
+    <strong>mobs:spawn (def)</strong>
+    </dt>
+    <dd>
+    Registers spawning behavior of mob.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">def</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         See: <a href="#mobs:spawn_specific">mobs:spawn_specific</a>, where parameters = table definition fields here.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs:register_arrow"></a>
+    <strong>mobs:register_arrow (name, def)</strong>
+    </dt>
+    <dd>
+    Registers an item that mob can use for ranged attack.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Name of throwable item.
+        </li>
+        <li><span class="parameter">def</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         See: <a href="#mobs:register_arrow.def">mobs:register_rrow.def</a>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs:register_egg"></a>
+    <strong>mobs:register_egg (name, description, background, addegg, no_creative)</strong>
+    </dt>
+    <dd>
+    Registers a mob spawning egg.</p>
+
+<p> The &ldquo;egg&rdquo; is an item that is held in inventory when a mob is captured/tamed.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Name of the mob to be spawned (e.g. &ldquo;<strong><em>mob:sheep</em></strong>&rdquo;).
+        </li>
+        <li><span class="parameter">description</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         name of the egg displayed in inventory (e.g. &ldquo;<strong><em>Spawn Sheep</em></strong>&rdquo;).
+        </li>
+        <li><span class="parameter">background</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Texture displayed for egg in inventory.
+        </li>
+        <li><span class="parameter">addegg</span>
+            <span class="types"><span class="type">int</span></span>
+         Adds an egg image in front of your texture (1=yes, 0=no).
+        </li>
+        <li><span class="parameter">no_creative</span>
+            <span class="types"><span class="type">bool</span></span>
+        <ul>
+<li>If <strong><em>true</em></strong>, spawn egg is not available in creative mode.</li>
+<li>Useful for destructive mobs like <strong><em>Dungeon Master</em></strong>.</li>
+</ul>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs:boom"></a>
+    <strong>mobs:boom (self, pos, radius)</strong>
+    </dt>
+    <dd>
+    Generates a self-destruct explosion from mob.</p>
+
+<p> Explosion removes nodes in a specific radius &amp; damages any
+ entity caught inside the blast radius. Protection will limit
+ node destruction but not entity damage.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+         The mob entity.
+        </li>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         Position of explosion centre.
+        </li>
+        <li><span class="parameter">radius</span>
+            <span class="types"><span class="type">int</span></span>
+         Radius of explosion reach (typically set to <strong><em>3</em></strong>).
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs:explosion"></a>
+    <strong>mobs:explosion (pos, radius)</strong>
+    </dt>
+    <dd>
+    Generates a self-destruct explosion from mob.</p>
+
+<p> <strong><em>DEPRECATED:</em></strong> Use <a href="#mobs:boom">mobs:boom</a>.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         Same as <a href="#mobs:boom">mobs:boom</a>.
+        </li>
+        <li><span class="parameter">radius</span>
+            <span class="types"><span class="type">int</span></span>
+         Same as <a href="#mobs:boom">mobs:boom</a>.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs:capture_mob"></a>
+    <strong>mobs:capture_mob (self, clicker, chance_hand, chance_net, chance_lasso, force_take, replacewith)</strong>
+    </dt>
+    <dd>
+    Attempts to capture a mob &amp; place in inventory.</p>
+
+<p> This function is generally called inside the <strong><em>on_rightclick</em></strong>
+ section of the mob api code. It provides a chance of capturing
+ the mob by hand, or by using the net or magic lasso items. It can
+ also have the player take the mob by force, even if tamed, &amp; replace
+ it with another item entirely.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+         Mob information.
+        </li>
+        <li><span class="parameter">clicker</span>
+         Player information.
+        </li>
+        <li><span class="parameter">chance_hand</span>
+            <span class="types"><span class="type">int</span></span>
+        <ul>
+<li>Chance of capturing mob by hand (<strong><em>0</em></strong> to disable).</li>
+<li>Min: <strong><em>0</em></strong></li>
+<li>Max: <strong><em>100</em></strong></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">chance_net</span>
+            <span class="types"><span class="type">int</span></span>
+        <ul>
+<li>Chance of capturing mob with net (<strong><em>0</em></strong> to disable).</li>
+<li>Min: <strong><em>0</em></strong></li>
+<li>Max: <strong><em>100</em></strong></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">chance_lasso</span>
+            <span class="types"><span class="type">int</span></span>
+        <ul>
+<li>Chance of capturing mob with magic lasso (<strong><em>0</em></strong> to disable).</li>
+<li>Min: <strong><em>0</em></strong></li>
+<li>Max: <strong><em>100</em></strong></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">force_take</span>
+            <span class="types"><span class="type">bool</span></span>
+         If <strong><em>true</em></strong>, takes mob by force even if tamed by another player.
+        </li>
+        <li><span class="parameter">replacewith</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         On capture, place this item in inventory instead of mob (overrides new mob eggs with saved information).
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs:feed_tame"></a>
+    <strong>mobs:feed_tame (table, clicker, feed_count, breed, tame)</strong>
+    </dt>
+    <dd>
+    Feed &amp; tame mobs.</p>
+
+<p> This function allows the mob to be fed the item(s) inside the
+ <strong><em>self.follow</em></strong> table a set number of times in order to be
+ tamed or bred as a result. Returns <strong><em>true</em></strong> when mob is fed
+ with item it likes.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">table</span>
+         self Mob information.
+        </li>
+        <li><span class="parameter">clicker</span>
+         Player information.
+        </li>
+        <li><span class="parameter">feed_count</span>
+            <span class="types"><span class="type">int</span></span>
+         Number of times mob must be fed to tame or breed.
+        </li>
+        <li><span class="parameter">breed</span>
+            <span class="types"><span class="type">bool</span></span>
+         If <strong><em>true</em></strong>, mob can be bred &amp; a child created afterwards.
+        </li>
+        <li><span class="parameter">tame</span>
+            <span class="types"><span class="type">bool</span></span>
+         If <strong><em>true</em></strong>, mob can be tamed so player can pick them up.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        <strong><em>true</em></strong> if the item was accepted.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs:protect"></a>
+    <strong>mobs:protect (self, clicker)</strong>
+    </dt>
+    <dd>
+    Protects mobs from being attacked by other players.</p>
+
+<p> This function can be used to right-click any tamed mob with
+ <strong><em>mobs:protector</em></strong> item. This will protect the mob from harm
+ inside a protected area from other players.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+         Mob information.
+        </li>
+        <li><span class="parameter">clicker</span>
+         Player information.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        <strong><em>true</em></strong> if mob right-clicked with <strong><em>mobs:protector</em></strong> item.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs:attach"></a>
+    <strong>mobs:attach (self, player)</strong>
+    </dt>
+    <dd>
+    Attaches a player to the mob so it can be ridden.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+         Mob information.
+        </li>
+        <li><span class="parameter">player</span>
+         Player information.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs:detach"></a>
+    <strong>mobs:detach (player, offset)</strong>
+    </dt>
+    <dd>
+    Detaches player from riding mob.</p>
+
+<p> Detaches the player currently riding a mob to an offset position.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">player</span>
+         Player information.
+        </li>
+        <li><span class="parameter">offset</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         Position table containing offset values.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs:drive"></a>
+    <strong>mobs:drive (self, move_animation, stand_animation, can_fly, dtime)</strong>
+    </dt>
+    <dd>
+    Controls mob movement with player riding.</p>
+
+<p> Allows an attached player to move the mob around &amp; animate it at same time.</p>
+
+<p> <strong>NOTE:</strong> Animation names are from the <em>pre-defined</em> animation lists inside mob registry without extensions.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+         Mob information.
+        </li>
+        <li><span class="parameter">move_animation</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Pre-defined movement state animation (e.g. &ldquo;<strong><em>walk</em></strong>&rdquo;, &ldquo;<strong><em>fly</em></strong>&rdquo;, etc.).
+        </li>
+        <li><span class="parameter">stand_animation</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Pre-defined standing state animation (e.g. &ldquo;<strong><em>stand</em></strong>&rdquo;, &ldquo;<strong><em>blink</em></strong>&rdquo;, etc.).
+        </li>
+        <li><span class="parameter">can_fly</span>
+            <span class="types"><span class="type">bool</span></span>
+         If <strong><em>true</em></strong>, jump &amp; sneak controls will allow mob to fly up &amp; down.
+        </li>
+        <li><span class="parameter">dtime</span>
+         Tick time used inside function.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs:fly"></a>
+    <strong>mobs:fly (self, dtime, speed, can_shoot, arrow_entity, move_animation, stand_animation)</strong>
+    </dt>
+    <dd>
+    Controls mob flight with player riding.</p>
+
+<p> Allows the attached player to fly the mob around using directional controls.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+         Mob information.
+        </li>
+        <li><span class="parameter">dtime</span>
+         Tick time used inside function.
+        </li>
+        <li><span class="parameter">speed</span>
+            <span class="types"><span class="type">int</span></span>
+         Speed at which mob moves in flight.
+        </li>
+        <li><span class="parameter">can_shoot</span>
+            <span class="types"><span class="type">bool</span></span>
+         If <strong><em>true</em></strong>, player can fire arrow with mob (sneak &amp; left mouse button fires).
+        </li>
+        <li><span class="parameter">arrow_entity</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Name of item used for firing ranged attack.
+        </li>
+        <li><span class="parameter">move_animation</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Pre-defined movement state animation (e.g. &ldquo;<strong><em>walk</em></strong>&rdquo;, &ldquo;<strong><em>fly</em></strong>&rdquo;, etc.).
+        </li>
+        <li><span class="parameter">stand_animation</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Pre-defined standing state animation (e.g. &ldquo;<strong><em>stand</em></strong>&rdquo;, &ldquo;<strong><em>blink</em></strong>&rdquo;, etc.).
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="api.html#mobs:drive">mobs:drive</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "mobs:set_animation"></a>
+    <strong>mobs:set_animation (self, name)</strong>
+    </dt>
+    <dd>
+    Sets current animation for mob.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+         Mob information.
+        </li>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        <ul>
+<li>Name of animation (e.g. &ldquo;<strong><em>stand</em></strong>&rdquo;, &ldquo;<strong><em>walk</em></strong>&rdquo;, &ldquo;<strong><em>fly</em></strong>&rdquo;, etc.).</li>
+<li>Default: &ldquo;<strong><em>stand</em></strong>&rdquo;</li>
+</ul>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Function_Definition_Tables"></a>Function Definition Tables </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "mobs:register_mob.def"></a>
+    <strong>mobs:register_mob.def</strong>
+    </dt>
+    <dd>
+    Definition table for <a href="#mobs:register_mob">mobs:register_mob</a>.
+
+    </ul>
+    </ul>
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">type</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        <ul>
+<li> The type of mob.</li>
+<li> Possible values:
+
+<ul>
+<li><strong><em>monster:</em></strong> Attacks players &amp; other mob types.</li>
+<li><strong><em>animal:</em></strong> Tend to wander around &amp; can attack when hit first.</li>
+<li><strong><em>npc:</em></strong> Behaviour is similar to <strong><em>animal</em></strong>.</li>
+</ul>
+</li>
+</ul>
+
+        </li>
+        <li><span class="parameter">passive</span>
+            <span class="types"><span class="type">bool</span></span>
+           Mob will <em>not</em> defend itself (set to <strong><em>false</em></strong> to attack).
+        </li>
+        <li><span class="parameter">docile_by_day</span>
+            <span class="types"><span class="type">bool</span></span>
+           When <strong><em>true</em></strong>, mob will not attack during daylight hours unless provoked.
+        </li>
+        <li><span class="parameter">attacks_monsters</span>
+            <span class="types"><span class="type">bool</span></span>
+           Will attack nearby monsters (usually used for NPCs).
+        </li>
+        <li><span class="parameter">group_attack</span>
+            <span class="types"><span class="type">bool</span></span>
+           If <strong><em>true</em></strong>, Will defend nearby mobs of same type from attack.
+        </li>
+        <li><span class="parameter">owner_loyal</span>
+            <span class="types"><span class="type">bool</span></span>
+           If <strong><em>true</em></strong>, owned mobs will attack any monsters you punch.
+        </li>
+        <li><span class="parameter">attack_animals</span>
+            <span class="types"><span class="type">bool</span></span>
+           If <strong><em>true</em></strong>, will attack animals as well as players &amp; NPCs.
+        </li>
+        <li><span class="parameter">specific_attack</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+           Table of entity names that monsters can attack (e.g. <strong><em>{&ldquo;player&rdquo;, &ldquo;mobs_animal:chicken&rdquo;}</em></strong>).
+        </li>
+        <li><span class="parameter">hp_min</span>
+            <span class="types"><span class="type">int</span></span>
+           Minimum health.
+        </li>
+        <li><span class="parameter">hp_max</span>
+            <span class="types"><span class="type">int</span></span>
+           Maximum health (health is randomly selected between <strong><em>hp_min</em></strong> &amp; <strong><em>hp_max</em></strong>).
+        </li>
+        <li><span class="parameter">physical</span>
+            <span class="types"><span class="type">bool</span></span>
+           Same as in <a href="http://dev.minetest.net/minetest.register_entity">minetest.register_entity</a>.
+        </li>
+        <li><span class="parameter">collisionbox</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         Same as in <a href="http://dev.minetest.net/minetest.register_entity">minetest.register_entity</a>.
+        </li>
+        <li><span class="parameter">visual</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+           Same as in <a href="http://dev.minetest.net/minetest.register_entity">minetest.register_entity</a>.
+        </li>
+        <li><span class="parameter">visual_size</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+           Same as in <a href="http://dev.minetest.net/minetest.register_entity">minetest.register_entity</a>.
+        </li>
+        <li><span class="parameter">textures</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+           Same as in <a href="http://dev.minetest.net/minetest.register_entity">minetest.register_entity</a>.
+   Although, you can add multiple lines for random textures
+   (e.g. <strong><em>{{&ldquo;texture1.png&rdquo;},{&ldquo;texture2.png&rdquo;}}</em></strong>).
+        </li>
+        <li><span class="parameter">gotten_texture</span>
+           Alternative texture for when <strong><em>self.gotten</em></strong> value is set to <strong><em>true</em></strong> (used for shearing sheep).
+        </li>
+        <li><span class="parameter">child_texture</span>
+           Texture of mod for when <strong><em>self.child</em></strong> is set to <strong><em>true</em></strong>.
+        </li>
+        <li><span class="parameter">mesh</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+           Same as in <a href="http://dev.minetest.net/minetest.register_entity">minetest.register_entity</a>.
+        </li>
+        <li><span class="parameter">gotten_mesh</span>
+           Alternative mesh for when <strong><em>self.gotten</em></strong> is <strong><em>true</em></strong> (used for sheep).
+        </li>
+        <li><span class="parameter">makes_footstep_sound</span>
+            <span class="types"><span class="type">bool</span></span>
+           Same as in <a href="http://dev.minetest.net/minetest.register_entity">minetest.register_entity</a>.
+        </li>
+        <li><span class="parameter">follow</span>
+           Items that, when held, will cause mob to follow player. Can be single string (e.g. <strong><em>&ldquo;default:apple&rdquo;</em></strong>)
+   or a table (e.g. <strong><em>{&ldquo;default:apple&rdquo;, &ldquo;default:diamond&rdquo;}</em></strong>). These can also be used to feed &amp; tame mob.
+        </li>
+        <li><span class="parameter">view_range</span>
+            <span class="types"><span class="type">int</span></span>
+           The range at which mob will follow or attack player or other entities.
+        </li>
+        <li><span class="parameter">walk_chance</span>
+            <span class="types"><span class="type">int</span></span>
+        <ul>
+<li> Chance of mob walking around (Set to <strong><em>0</em></strong> for jumping mob only).</li>
+<li> Min: <strong><em>0</em></strong></li>
+<li> Max: <strong><em>100</em></strong></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">walk_velocity</span>
+           Speed of mob when walking around.
+        </li>
+        <li><span class="parameter">run_velocity</span>
+           Speed of mob when running or attacking another entity.
+        </li>
+        <li><span class="parameter">runaway</span>
+            <span class="types"><span class="type">bool</span></span>
+           If <strong><em>true</em></strong>, mob will retreat when punched.
+        </li>
+        <li><span class="parameter">stepheight</span>
+            <span class="types"><span class="type">float</span></span>
+           Minimum node height mob can walk onto without jumping (default: <strong><em>0.6</em></strong>).
+        </li>
+        <li><span class="parameter">jump</span>
+            <span class="types"><span class="type">bool</span></span>
+           If <strong><em>true</em></strong>, mob can jump.
+        </li>
+        <li><span class="parameter">jump_height</span>
+            <span class="types"><span class="type">int</span></span>
+        <ul>
+<li> Height mob can jump (Set to <strong><em>0</em></strong> to disable jump).</li>
+<li> Default: <strong><em>6</em></strong></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">fly</span>
+            <span class="types"><span class="type">bool</span></span>
+           If <strong><em>true</em></strong>,  mob can fly through designated node types from <strong><em>fly_in</em></strong> (used for swimming mobs as well).
+        </li>
+        <li><span class="parameter">fly_in</span>
+           Node name in which mob can fly (e.g. <strong><em>&ldquo;air&rdquo;</em></strong> for birds, &amp; <strong><em>&ldquo;default:water_source&rdquo;</em></strong> for fish).
+        </li>
+        <li><span class="parameter">damage</span>
+           The damage mob inflicts per melee attack.
+        </li>
+        <li><span class="parameter">recovery_time</span>
+            <span class="types"><span class="type">float</span></span>
+        <ul>
+<li> How much time, in seconds, from when mob is hit until it recovers.</li>
+<li> Default: <strong><em>0.5</em></strong></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">knock_back</span>
+            <span class="types"><span class="type">int</span></span>
+        <ul>
+<li> Strength of knock-back when mob is hit.</li>
+<li> Default: <strong><em>3</em></strong></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">immune_to</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        <ul>
+<li> A table holding special tool/item names &amp; damage they incur.</li>
+<li> Example:
+<pre>
+immune_to = {
+   {&ldquo;default:sword_wood&rdquo;, 0},  -- immune to sword
+   {&ldquo;default:gold_lump&rdquo;, -10},  -- gold lump heals
+}
+</pre></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">blood_amount</span>
+            <span class="types"><span class="type">int</span></span>
+           Number of blood droplets that appear when hit.
+        </li>
+        <li><span class="parameter">blood_texture</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        <ul>
+<li> Texture of blood droplets.</li>
+<li> Default: <strong><em>&ldquo;mobs_blood.png&rdquo;</em></strong></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">drops</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        <ul>
+<li> List of tables with the following fields:
+
+<ul>
+<li><strong><em>name:</em></strong> (<strong><em>string</em></strong>) Item name (e.g. &ldquo;default:stone&rdquo;).</li>
+<li><strong><em>chance:</em></strong> (<strong><em>int</em></strong>) The inverted chance (same as in abm) to get the item.</li>
+<li><strong><em>min:</em></strong> (<strong><em>int</em></strong>) Minimum number of items dropped at one time.</li>
+<li><strong><em>max:</em></strong> (<strong><em>int</em></strong>) Maximum number of items dropped at one time.</li>
+</ul>
+</li>
+<li> Example:
+<pre>
+drops = {
+   {name=&lsquo;default:stone&rsquo;, chance=2, min=5, max=5},
+   {name=&lsquo;default:mese_crystal&rsquo;, chance=100, min=1, max=3},
+   {name=&lsquo;mobs:meat&rsquo;, chance=1, min=2, max=5},
+}
+</pre></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">armor</span>
+            <span class="types"><span class="type">int</span></span>
+           Armor strength (<strong><em>100</em></strong> being normal). Lower numbers mean stronger armor while higher numbers
+   make it weaker (weird, I know. But compatible with simple mobs).
+        </li>
+        <li><span class="parameter">rotate</span>
+            <span class="types"><span class="type">int</span></span>
+           Sets mob rotation (0=front, 90=side, 180=back, 270=other side).
+        </li>
+        <li><span class="parameter">drawtype</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+           <strong><em>&ldquo;front&rdquo;</em></strong> or <strong><em>&ldquo;side&rdquo;</em></strong> (<strong>DEPRECATED:</strong> replaced with <strong><em>rotate</em></strong>).
+        </li>
+        <li><span class="parameter">water_damage</span>
+           Damage per second mob incurs while in water.
+        </li>
+        <li><span class="parameter">lava_damage</span>
+           Damage per second mob incurs while in lava.
+        </li>
+        <li><span class="parameter">light_damage</span>
+           Damage per second mob incurs while in light.
+        </li>
+        <li><span class="parameter">suffocation</span>
+           Health value mob loses when inside a solid node.
+        </li>
+        <li><span class="parameter">fall_damage</span>
+            <span class="types"><span class="type">bool</span></span>
+           If <strong><em>true</em></strong>, mob will sustain damage when falling from heights.
+        </li>
+        <li><span class="parameter">fall_speed</span>
+            <span class="types"><span class="type">int</span></span>
+        <ul>
+<li> Maximum falling velocity of mob.</li>
+<li> Max: <strong><em>-2</em></strong></li>
+<li> Default: <strong><em>-10</em></strong></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">fear_height</span>
+            <span class="types"><span class="type">int</span></span>
+        <ul>
+<li> Any drop over this value will make mob turn back (set to <strong><em>0</em></strong> to disable).</li>
+<li> Default: <strong><em>0</em></strong></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">on_die</span>
+            <span class="types"><span class="type">callback</span></span>
+        <ul>
+<li> Called when mob dies.</li>
+<li> Usage: <strong><em>on_die = function(self, pos)</em></strong></li>
+<li> Parameters:
+
+<ul>
+<li><strong><em>self:</em></strong></li>
+<li><strong><em>pos:</em></strong></li>
+</ul>
+</li>
+</ul>
+
+        </li>
+        <li><span class="parameter">floats</span>
+            <span class="types"><span class="type">int</span></span>
+           Set to <strong><em>1</em></strong> to float in water, <strong><em>0</em></strong> to sink.
+        </li>
+        <li><span class="parameter">on_rightclick</span>
+            <span class="types"><span class="type">callback</span></span>
+           Same as in <a href="http://dev.minetest.net/minetest.register_entity">minetest.register_entity</a>.
+        </li>
+        <li><span class="parameter">pathfinding</span>
+            <span class="types"><span class="type">int</span></span>
+        <ul>
+<li> Use pathfinder feature.</li>
+<li> Options:
+
+<ul>
+<li><strong><em>0:</em></strong> Disable.</li>
+<li><strong><em>1:</em></strong> Use pathfinder to locate player.</li>
+<li><strong><em>2:</em></strong> Additionaly allow build/break (only works with <strong><em>dogfight</em></strong> attack).</li>
+</ul>
+</li>
+</ul>
+
+        </li>
+        <li><span class="parameter">attack_type</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        <ul>
+<li> The attack type of a mob.</li>
+<li> Options:
+
+<ul>
+<li><strong><em>dogfight:</em></strong> Follows player in range &amp; attacks when in reach.</li>
+<li><strong><em>shoot:</em></strong> Shoots defined arrows when player is within range.</li>
+<li><strong><em>explode:</em></strong> Follows player &amp; will flash &amp; explode when in reach.</li>
+<li><strong><em>dogshoot:</em></strong> Shoots arrows when in range &amp; one on one attack when in reach.</li>
+</ul>
+</li>
+</ul>
+
+        </li>
+        <li><span class="parameter">dogshoot_switch</span>
+           Allows switching between <strong><em>shoot</em></strong> &amp; <strong><em>dogfight</em></strong> modes inside <strong><em>dogshoot</em></strong> using
+   timer (1 = shoot, 2 = dogfight).
+        </li>
+        <li><span class="parameter">dogshoot_count_max</span>
+            <span class="types"><span class="type">int</span></span>
+           Number of seconds before switching to <strong><em>dogfight</em></strong> mode.
+        </li>
+        <li><span class="parameter">dogshoot_count2_max</span>
+            <span class="types"><span class="type">int</span></span>
+           Number of seconds before switching back to <strong><em>shoot</em></strong> mode.
+        </li>
+        <li><span class="parameter">custom_attack</span>
+            <span class="types"><span class="type">callback</span></span>
+        <ul>
+<li> When set, this function is called instead of the normal mob melee attack.</li>
+<li> Usage: <strong><em>custom_attack = function(self, to_attack)</em></strong></li>
+<li> Parameters:
+
+<ul>
+<li><strong><em>self:</em></strong></li>
+<li><strong><em>to_attack:</em></strong></li>
+</ul>
+</li>
+</ul>
+
+        </li>
+        <li><span class="parameter">double_melee_attack</span>
+            <span class="types"><span class="type">bool</span></span>
+           If <strong><em>false</em></strong>, API will choose randomly between <strong><em>punch</em></strong> &amp; <strong><em>punch2</em></strong> attack animations.
+        </li>
+        <li><span class="parameter">on_blast</span>
+            <span class="types"><span class="type">callback</span></span>
+        <ul>
+<li> Called when an explosion happens near mob using TNT functions.</li>
+<li> Usage: <strong><em>on_blast = function(object, damage)</em></strong></li>
+<li> Parameters:
+
+<ul>
+<li><strong><em>object:</em></strong></li>
+<li><strong><em>damage:</em></strong></li>
+</ul>
+</li>
+<li> Returns: (<strong><em>do_damage</em></strong>, <strong><em>do_knockback</em></strong>, <strong><em>drops</em></strong>)</li>
+</ul>
+
+        </li>
+        <li><span class="parameter">explosion_radius</span>
+            <span class="types"><span class="type">int</span></span>
+           Radius of explosion attack (default: <strong><em>1</em></strong>).
+        </li>
+        <li><span class="parameter">arrow</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+           If <strong><em>attack_type</em></strong> is <strong><em>&ldquo;shoot&rdquo;</em></strong> or <strong><em>&ldquo;dogshoot&rdquo;</em></strong>, then the entity name of a pre-defined arrow
+   is required (see <a href="#mobs:register_arrow">mobs:register_arrow</a>).
+        </li>
+        <li><span class="parameter">shoot_interval</span>
+           The minimum shoot interval.
+        </li>
+        <li><span class="parameter">shoot_offset</span>
+           +/- value to position arrow/fireball when fired.
+        </li>
+        <li><span class="parameter">reach</span>
+            <span class="types"><span class="type">int</span></span>
+        <ul>
+<li>Range at which mob will shoot (default: <strong><em>3</em></strong>).</li>
+</ul>
+
+
+<p> <div style="text-align:right; font-style:italic;">
+ <strong>COMBAT</strong></p>
+
+<hr />
+
+<p> </div></p>
+
+<p> <div style="text-align:right; font-style:italic;">
+ <strong>AUDIO</strong></p>
+
+<hr />
+
+<p> </div></p>
+        </li>
+        <li><span class="parameter">sounds</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        <ul>
+<li> Sounds that will be heard from mob.</li>
+<li> Fields:
+
+<ul>
+<li><strong><em>random:</em></strong> Random sounds during gameplay.</li>
+<li><strong><em>war_cry:</em></strong> Played when starting to attack player.</li>
+<li><strong><em>attack:</em></strong> Played while attacking player.</li>
+<li><strong><em>shoot_attack:</em></strong> Played while attacking player from range.</li>
+<li><strong><em>damage:</em></strong> Played when mob is hit.</li>
+<li><strong><em>death:</em></strong> Played when mob dies.</li>
+<li><strong><em>jump:</em></strong> Played when jumping.</li>
+<li><strong><em>explode:</em></strong> Played when explodes.</li>
+<li><strong><em>distance:</em></strong> (<strong><em>int</em></strong>) Maximum distance sounds are heard from (default: 10).</li>
+</ul>
+</li>
+</ul>
+
+
+<p> <div style="text-align:right; font-style:italic;">
+ <strong>EATING</strong></p>
+
+<hr />
+
+<p> Mobs can look for specific nodes as they walk &amp; replace them to mimic eating.
+ </div></p>
+        </li>
+        <li><span class="parameter">on_replace</span>
+            <span class="types"><span class="type">callback</span></span>
+        <ul>
+<li> Called when mob is about to replace a node.</li>
+<li> Usage: <strong><em>on_replace(self, pos, oldnode, newnode)</em></strong></li>
+<li> Parameters:
+
+<ul>
+<li><strong><em>self:</em></strong> ObjectRef of mob.</li>
+<li><strong><em>pos:</em></strong> Position of node to replace.</li>
+<li><strong><em>oldnode:</em></strong> Current node.</li>
+<li><strong><em>newnode:</em></strong> What the node will become after replacing.</li>
+</ul>
+</li>
+<li> Returns: (<strong><em>bool</em></strong>) If <strong><em>false</em></strong> is returned, the mob will not replace the node.</li>
+<li> By default, replacing sets <strong><em>self.gotten</em></strong> to <strong><em>true</em></strong> &amp; resets the object properties.</li>
+</ul>
+
+        </li>
+        <li><span class="parameter">replace_what</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        <ul>
+<li> Group if items to replace (e.g. {&ldquo;farming:wheat_8&rdquo;, &ldquo;farming:carrot_8&rdquo;}).</li>
+<li> Updated to use tables for what, with an y_offset. Example:
+<pre>
+replace_what = {
+   {&ldquo;group:grass&rdquo;, &ldquo;air&rdquo;, 0}, {&ldquo;default:dirt_with_grass&rdquo;, &ldquo;default:dirt&rdquo;, -1},
+}
+</pre></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">replace_with</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+           Replace with what (e.g. <strong><em>&ldquo;air&rdquo;</em></strong>, or in the case of chickens <strong><em>&ldquo;mobs:egg&rdquo;</em></strong>).
+        </li>
+        <li><span class="parameter">replace_rate</span>
+            <span class="types"><span class="type">int</span></span>
+           How random should the replace rate be (typically <strong><em>10</em></strong>).
+        </li>
+        <li><span class="parameter">replace_offset</span>
+           +/- value to check specific node to replace.</p>
+
+<p> <div style="text-align:right; font-style:italic;">
+ <strong>ANIMATION</strong></p>
+
+<hr />
+
+<p> Mob animation comes in three parts; <strong>start_frame</strong>, <strong>end_frame</strong>, &amp; <strong>frame_speed</strong>, which
+ can be added to the mob definition under pre-defined mob animation names like:</p>
+
+<p> &ldquo;<strong>*_loop</strong>&rdquo; bool value to determine if any set animation loops (e.g. <strong>die_loop = false</strong>). •</p>
+
+<p> Defaults to <strong>true</strong> if not set. •</p>
+
+<p> Also &ldquo;<strong>speed_normal</strong>&rdquo; for compatibility with older mobs for animation speed (<strong>DEPRECATED</strong>). •
+ </div><br>
+        </li>
+        <li><span class="parameter">animation</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        <ul>
+<li> Animation ranges &amp; speed of the model.</li>
+<li> Fields:
+
+<ul>
+<li><strong><em>stand_start, stand_end, stand_speed:</em></strong> When mob stands still.</li>
+<li><strong><em>walk_start, walk_end, walk_speed:</em></strong> When mob walks.</li>
+<li><strong><em>run_start, run_end, run_speed:</em></strong> When mob runs.</li>
+<li><strong><em>fly_start, fly_end, fly_speed:</em></strong> When mob flies.</li>
+<li><strong><em>punch_start, punch_end, punch_speed:</em></strong> When mob attacks.</li>
+<li><strong><em>punch2_start, punch2_end, punch2_speed:</em></strong> When mob attacks (alternative).</li>
+<li><strong><em>die_start, die_end, die_speed:</em></strong> When mob dies.</li>
+</ul>
+</li>
+</ul>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mobs:register_arrow.def"></a>
+    <strong>mobs:register_arrow.def</strong>
+    </dt>
+    <dd>
+    Definition table for <a href="#mobs:register_arrow">mobs:register_arrow</a>.
+
+    </ul>
+    </ul>
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">visual</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Same as in <a href="http://dev.minetest.net/minetest.register_entity">minetest.register_entity</a>
+        </li>
+        <li><span class="parameter">visual_size</span>
+            <span class="types"><span class="type">size</span></span>
+         Same as in <a href="http://dev.minetest.net/minetest.register_entity">minetest.register_entity</a>
+        </li>
+        <li><span class="parameter">textures</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         Same as in <a href="http://dev.minetest.net/minetest.register_entity">minetest.register_entity</a>
+        </li>
+        <li><span class="parameter">velocity</span>
+         Velocity of the arrow.
+        </li>
+        <li><span class="parameter">drop</span>
+            <span class="types"><span class="type">bool</span></span>
+         If <strong><em>true</em></strong>, any arrows hitting a node will drop as item.
+        </li>
+        <li><span class="parameter">hit_player</span>
+            <span class="types"><span class="type">callback</span></span>
+        <ul>
+<li>Called when the arrow hits a player (should hurt the player).</li>
+<li>Usage: <strong><em>hit_player = function(self, player)</em></strong></li>
+<li>Parameters:
+
+<ul>
+<li><strong><em>self:</em></strong></li>
+<li><strong><em>player</em></strong></li>
+</ul>
+</li>
+</ul>
+
+        </li>
+        <li><span class="parameter">hit_mob</span>
+            <span class="types"><span class="type">callback</span></span>
+        <ul>
+<li>Called when the arrow hits a mob (should hurt the mob).</li>
+<li>Usage: <strong><em>hit_mobs(self, player)</em></strong></li>
+<li>Parameters:
+
+<ul>
+<li><strong><em>self:</em></strong></li>
+<li><strong><em>player:</em></strong></li>
+</ul>
+</li>
+</ul>
+
+        </li>
+        <li><span class="parameter">hit_node</span>
+            <span class="types"><span class="type">callback</span></span>
+        <ul>
+<li>Called when the arrow hits a node.</li>
+<li>Usage: <strong><em>hit_node = function(self, pos, node)</em></strong></li>
+<li>Parameters:
+
+<ul>
+<li><strong><em>self:</em></strong></li>
+<li><strong><em>pos:</em></strong></li>
+<li><strong><em>node:</em></strong></li>
+</ul>
+</li>
+</ul>
+
+        </li>
+        <li><span class="parameter">tail</span>
+            <span class="types"><span class="type">int</span></span>
+         When set to <strong><em>1</em></strong> adds a trail or tail to mob arrows.
+        </li>
+        <li><span class="parameter">tail_texture</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Texture used for <strong>tail</strong> effect.
+        </li>
+        <li><span class="parameter">tail_size</span>
+            <span class="types"><span class="type">int</span></span>
+         Has size for <strong><em>tail</em></strong> texture (default: between <strong><em>5</em></strong> &amp; <strong><em>10</em></strong>).
+        </li>
+        <li><span class="parameter">expire</span>
+            <span class="types"><span class="type">float</span></span>
+         How long tail appears for (default: <strong><em>0.25</em></strong>).
+        </li>
+        <li><span class="parameter">glow</span>
+            <span class="types"><span class="type">int</span></span>
+        <ul>
+<li> Value for how brightly tail glows.</li>
+<li> Min: <strong><em>0</em></strong></li>
+<li> Max: <strong><em>10</em></strong></li>
+<li> Default: <strong><em>0</em></strong></li>
+</ul>
+
+        </li>
+        <li><span class="parameter">rotate</span>
+            <span class="types"><span class="type">int</span></span>
+         Degrees to rotate arrow.
+        </li>
+        <li><span class="parameter">on_step</span>
+            <span class="types"><span class="type">callback</span></span>
+        <ul>
+<li>A custom function when arrow is active.</li>
+<li>Default: <strong><em>nil</em></strong></li>
+</ul>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Notes"></a>Notes </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Variables"></a>
+    <strong>Variables</strong>
+    </dt>
+    <dd>
+    <p>Required variables.</p>
+
+<p> These variables need to be set before using the mobs functions:</p>
+
+<ul>
+<li><code>self.v2:</code> Toggle switch used to define following values for the first time.</li>
+<li><code>self.max_speed_forward:</code> Max speed mob can move forward.</li>
+<li><code>self.max_speed_reverse:</code> Max speed mob can move backwards.</li>
+<li><code>self.accel:</code> Acceleration speed.</li>
+<li><code>self.terrain_type:</code> Integer containing terrain mob can walk on:
+
+<ul>
+<li><strong><em>1:</em></strong> water</li>
+<li><strong><em>2:</em></strong> water/land???</li>
+<li><strong><em>3:</em></strong> land</li>
+</ul>
+</li>
+<li><code>self.driver_attach_at:</code> Position offset for attaching player to mob.</li>
+<li><code>self.driver_eye_offset:</code> Position offset for attached player view.</li>
+<li><code>self.driver_scale:</code> Sets driver scale for mobs larger than <strong><em>{x=1, y=1}</em></strong>.</li>
+</ul>
+
+
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Examples"></a>Examples </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Horse"></a>
+    <strong>Horse</strong>
+    </dt>
+    <dd>
+    Rideable horse.</p>
+
+<p> Example of how to register a rideable horse:
+ <pre>
+ mobs:register_mob(&ldquo;mob_horse:horse&rdquo;, {
+     type = &ldquo;animal&rdquo;,
+     visual = &ldquo;mesh&rdquo;,
+     visual_size = {x = 1.20, y = 1.20},
+     mesh = &ldquo;mobs_horse.x&rdquo;,
+     collisionbox = {-0.4, -0.01, -0.4, 0.4, 1.25, 0.4},
+     animation = {
+         speed_normal = 15,
+         speed_run = 30,
+         stand_start = 25,
+         stand_end = 75,
+         walk_start = 75,
+         walk_end = 100,
+         run_start = 75,
+         run_end = 100,
+     },
+     textures = {
+         {&ldquo;mobs_horse.png&rdquo;},
+         {&ldquo;mobs_horsepeg.png&rdquo;},
+         {&ldquo;mobs_horseara.png&rdquo;}
+     },
+     fear_height = 3,
+     runaway = true,
+     fly = false,
+     walk_chance = 60,
+     view_range = 5,
+     follow = {&ldquo;farming:wheat&rdquo;},
+     passive = true,
+     hp_min = 12,
+     hp_max = 16,
+     armor = 200,
+     lava_damage = 5,
+     fall_damage = 5,
+     water_damage = 1,
+     makes_footstep_sound = true,
+     drops = {
+         {name = &ldquo;mobs:meat_raw&rdquo;, chance = 1, min = 2, max = 3}
+     },
+     do_custom = function(self, dtime)
+         -- set needed values if not already present
+         if not self.v2 then
+         -- elf.v2 = 0
+             self.max_speed_forward = 6
+             self.max_speed_reverse = 2
+             self.accel = 6
+             self.terrain_type = 3
+             self.driver_attach_at = {x = 0, y = 20, z = -2}
+             self.driver_eye_offset = {x = 0, y = 3, z = 0}
+             self.driver_scale = {x = 1, y = 1}
+         end
+         -- if driver present allow control of horse
+         if self.driver then
+             mobs.drive(self, &ldquo;walk&rdquo;, &ldquo;stand&rdquo;, false, dtime)
+            return false -- skip rest of mob functions
+         end
+          return true
+     end,
+     on_die = function(self, pos)
+         -- drop saddle when horse is killed while riding
+         -- also detach from horse properly
+         if self.driver then
+             minetest.add_item(pos, &ldquo;mobs:saddle&rdquo;)
+             mobs.detach(self.driver, {x = 1, y = 0, z = 1})
+         end
+     end,
+     on_rightclick = function(self, clicker)
+         -- make sure player is clicking
+         if not clicker or not clicker:is_player() then
+             return
+         end
+         -- feed, tame or heal horse
+         if mobs:feed_tame(self, clicker, 10, true, true) then
+             return
+         end
+         -- make sure tamed horse is being clicked by owner only
+         if self.tamed &amp; self.owner == clicker:get_player_name() then
+             local inv = clicker:get_inventory()
+             -- detatch player already riding horse
+             if self.driver &amp; clicker == self.driver then
+                 mobs.detach(clicker, {x = 1, y = 0, z = 1})
+                 -- add saddle back to inventory
+                 if inv:room_for_item(&ldquo;main&rdquo;, &ldquo;mobs:saddle&rdquo;) then
+                     inv:add_item(&ldquo;main&rdquo;, &ldquo;mobs:saddle&rdquo;)
+                 else
+                     minetest.add_item(clicker.getpos(), &ldquo;mobs:saddle&rdquo;)
+                 end
+             -- attach player to horse
+             elseif not self.driver
+             &amp; clicker:get_wielded_item():get_name() == &ldquo;mobs:saddle&rdquo; then
+                 self.object:set_properties({stepheight = 1.1})
+                 mobs.attach(self, clicker)
+                 -- take saddle from inventory
+                 inv:remove_item(&ldquo;main&rdquo;, &ldquo;mobs:saddle&rdquo;)
+             end
+         end
+         -- used to capture horse with magic lasso
+         mobs:capture_mob(self, clicker, 0, 0, 80, false, nil)
+     end
+ })
+ </pre>
+
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/AntumDeluge/LDoc/tree/antum">LDoc 1.4.6-antum-dev</a></i>
+<i style="float:right;">Last updated 2017-08-11 15:29:22 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
