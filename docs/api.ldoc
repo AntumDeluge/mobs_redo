@@ -51,11 +51,13 @@
 
 --- Mob spawn rate & count.
 --
--- Can change specific mob chance rate & spawn count (***0*** to disable).
+-- Can change specific mob spawn chance & max spawn count (***0*** to disable).
 --
 -- - Usage: ***prefix:name = chance,count***
 -- - *mintest.conf* Example:
 -- <pre>
+-- \# First number specifies "chance", second is max spawns
+-- \# allowed within a section of the map at one time.
 -- mobs_animal:cow = 1000,5
 -- </pre>
 --
