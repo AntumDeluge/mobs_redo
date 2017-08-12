@@ -11,5 +11,8 @@ rm -rf "${DOCS}/api.html" "${DOCS}/scripts" "${DOCS}/modules"
 # Create new files
 ldoc -c "${CONFIG}" -d "${DOCS}" "${DOCS}"
 
-# Put "prefix:name_" settings in angled brackets (<>)
-sed -i -e 's|>prefix:name|>\&lt;prefix\&gt;:\&lt;name\&gt;|' "${DOCS}/api.html"
+if [ -f "${DOCS}/api.html" ]; then
+	# Put "prefix:name_" settings in angled brackets (<>)
+	sed -i -e 's|>prefix:name|>\&lt;prefix\&gt;:\&lt;name\&gt;|' "${DOCS}/api.html"
+fi
+
