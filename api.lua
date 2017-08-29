@@ -733,7 +733,7 @@ local do_jump = function(self)
 
 --print ("standing on:", nod.name, pos.y)
 
-	if minetest.registered_nodes[nod.name].walkable == false then
+	if nod == nil or minetest.registered_nodes[nod.name].walkable == false then
 		return false
 	end
 
