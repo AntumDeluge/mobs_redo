@@ -52,6 +52,8 @@ minetest.register_tool("mobs:lasso", {
 	inventory_image = "mobs_magic_lasso.png",
 	groups = {flammable = 2},
 })
+minetest.register_alias("mobs:lasso", "mobs:magic_lasso")
+minetest.register_alias("lasso", "mobs:magic_lasso")
 
 if minetest.get_modpath("farming") then
 	minetest.register_craft({
